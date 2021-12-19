@@ -10,7 +10,8 @@
       state: present
 
   - name: ensure the repository is configured
-      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/'
+      apt_repository:
+      repo: deb https://pkg.jenkins.io/debian-stable binary/
       state: present
 
   - name: Install java
