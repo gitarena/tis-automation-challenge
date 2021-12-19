@@ -5,12 +5,13 @@
   become_user: root
   tasks:
   - name: ensure the jenkins apt repository key is installed
-    apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key
-    state: present
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
 
   - name: ensure the repository is configured
-    apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/'
-    state: present
+      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/'
+      state: present
 
   - name: Install java
     apt: 
