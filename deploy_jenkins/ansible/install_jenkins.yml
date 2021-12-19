@@ -1,39 +1,28 @@
 ---
 - hosts: all
   become: yes
-  remote_user: ec2-user
+  remote_user: ubuntu
   become_user: root
   tasks:
-  - name: Download Jenkins
-    get_url:
-      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
-      dest: /etc/yum.repos.d/jenkins.repo
-
-  - name: Import jenkins key from url
-    ansible.builtin.rpm_key:
-      state: present
-      key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-
-  - name: yum update
-    yum:
-      name: '*'
-      state: latest
-
-  - name: Install Java
-    yum:
-      name: java-11-openjdk-devel
+    - name: ensure the jenkins apt repository key is installed
+      apt_key: url=https://pkg.jenkins.io/debian-stable/jenkins.io.key
       state: present
 
-  - name: Install Jenkins
-    yum:
-      name: jenkins
-      state: latest
+    - name: ensure the repository is configured
+      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/'
+      state: present
 
-  - name: daemon-reload to pick up config changes
-    ansible.builtin.systemd:
-      daemon_reload: yes
+    - name: Install java
+      apt: 
+        name: openjdk-11-jdk
+        state: present
 
-  - name: Start Jenkins
-    ansible.builtin.systemd:
-      name: jenkins
-      state: started
+    - name: ensure jenkins is installed
+      apt: 
+        name: jenkins
+        update_cache: yes
+
+    - name: ensure jenkins is running
+      service: 
+        name: jenkins
+        state: started
