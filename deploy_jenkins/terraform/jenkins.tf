@@ -1,5 +1,5 @@
 resource "aws_instance" "jenkins" {
-  ami = "ami-0b0af3577fe5e3532"
+  ami = "ami-0e472ba40eb589f49"
   instance_type = "t2.micro"
   security_groups = ["sg_jenkins"]
   tags = {
