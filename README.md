@@ -1,2 +1,0 @@
-# -tis-automation-challenge
-Challenge
