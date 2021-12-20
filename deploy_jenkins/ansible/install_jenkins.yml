@@ -9,6 +9,7 @@
     apt: 
       name: openjdk-11-jdk
       state: present
+      update_cache: yes
 
   - name: Installing jenkins key
     apt_key:
@@ -27,12 +28,19 @@
 
   - name: Remove initial password lockfile
     file: 
-      path: /jenkins/secrets/initialAdminPassword 
+      path: /var/lib/jenkins/secrets/initialAdminPassword 
       state: absent
 
-#  - name: Reset admin password to install
-#    lineinfile: path='{{ admin_file_name.files.0.path }}/config.xml' regexp='<passwordHash>' line='      <passwordHash>#jbcrypt:$2a$10$hWbMDOe5PieN1aXZQt6moOdUKiNhjYCi6WHpqDHZ7vIl9NY6MBGBu</passwordHash>'
-#    register: password
+  - name: Retrieve jenkins admin user directory
+    find:
+      paths: /jenkins/users
+      patterns: 'admin_*'
+      file_type: directory
+    register: admin_file_name
+
+  - name: Reset admin password to install
+    lineinfile: path='{{ admin_file_name.files.0.path }}/config.xml' regexp='<passwordHash>' line='      <passwordHash>#jbcrypt:$2a$10$hWbMDOe5PieN1aXZQt6moOdUKiNhjYCi6WHpqDHZ7vIl9NY6MBGBu</passwordHash>'
+    register: password
 
   - name: Restart jenkins service
     service: 
