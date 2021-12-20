@@ -4,25 +4,40 @@
   remote_user: ubuntu
   become_user: root
   tasks:
-  - name: ensure the jenkins apt repository key is installed
-    apt_key:
-      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
-      state: present
-
-  - name: ensure the repository is configured
-      apt_repository:
-      repo: deb https://pkg.jenkins.io/debian-stable binary/
-      state: present
 
   - name: Install java
     apt: 
       name: openjdk-11-jdk
       state: present
 
-  - name: ensure jenkins is installed
+  - name: Installing jenkins key
+    apt_key:
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+      state: present
+
+  - name: Configuring jenkins repository
+    apt_repository:
+      repo: deb https://pkg.jenkins.io/debian-stable binary/
+      state: present
+
+  - name: Installing jenkins
     apt: 
       name: jenkins
       update_cache: yes
+
+  - name: Remove initial password lockfile
+    file: 
+      path: /jenkins/secrets/initialAdminPassword 
+      state: absent
+
+#  - name: Reset admin password to install
+#    lineinfile: path='{{ admin_file_name.files.0.path }}/config.xml' regexp='<passwordHash>' line='      <passwordHash>#jbcrypt:$2a$10$hWbMDOe5PieN1aXZQt6moOdUKiNhjYCi6WHpqDHZ7vIl9NY6MBGBu</passwordHash>'
+#    register: password
+
+  - name: Restart jenkins service
+    service: 
+      name: jenkins
+      state: restarted
 
   - name: ensure jenkins is running
     service: 
