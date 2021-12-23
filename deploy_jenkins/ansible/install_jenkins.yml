@@ -33,7 +33,7 @@
 
   - name: Retrieve jenkins admin user directory
     find:
-      paths: /jenkins/users
+      paths: /var/lib/jenkins/users
       patterns: 'admin_*'
       file_type: directory
     register: admin_file_name

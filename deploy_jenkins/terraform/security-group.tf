@@ -1,5 +1,5 @@
-resource "aws_security_group" "sg_jenkins" {
-  name        = "sg_jenkins"
+resource "aws_security_group" "sg_webservers" {
+  name        = "sg_webservers"
   description = "Allow all outbound traffic and inbound 22/80"
 
   ingress {
@@ -19,6 +19,13 @@ resource "aws_security_group" "sg_jenkins" {
   ingress {
     from_port   = 8080
     to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 3389
+    to_port     = 3389
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

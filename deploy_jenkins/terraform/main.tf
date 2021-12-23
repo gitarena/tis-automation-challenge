@@ -16,7 +16,7 @@ provider "aws" {
 terraform{
     backend "s3"{
       bucket = "arena123"
-      key    = "jenkins-server.tfstate"
+      key    = "web-servers.tfstate"
       region = "us-east-1"
     }
 }
