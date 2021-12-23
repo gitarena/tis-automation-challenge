@@ -22,3 +22,10 @@ resource "aws_vpc" "webserver_linux" {
     Name = "webserver_linux"
   }
 }
+
+resource "null_resource" "provision_webserver_linux" {
+  provisioner "local-exec" {
+      command     = "sleep 30 && ansible-playbook configure_linux_servers.yml"
+      working_dir = "../ansible"  
+  }
+}
