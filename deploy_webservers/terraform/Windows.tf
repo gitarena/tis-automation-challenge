@@ -1,10 +1,10 @@
 resource "aws_instance" "webserver-win" {
-  count = var.instance_count
+  count = 2
   ami = "ami-0d80714a054d3360c"
   instance_type = "t2.micro"
   security_groups = ["sg_jenkins"]
   tags = {
-    Name = "Web-server-Linux-Windows-${count.index + 1}"
+    Name = "Web-server-Linux-Windows-${count.index}"
   }
   key_name = "ubuntu"
 }

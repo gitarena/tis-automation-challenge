@@ -21,10 +21,9 @@ terraform{
     }
 }
 
-resource "null_resource" "provision_jenkins" {
-  depends_on      = [aws_instance.jenkins]
-  provisioner "local-exec" {
-      command     = "sleep 30 && ansible-playbook install_jenkins.yml"
-      working_dir = "../ansible"  
-  }
-}
+#resource "null_resource" "provision_webservers" {
+#  provisioner "local-exec" {
+#      command     = "sleep 30 && ansible-playbook install_jenkins.yml"
+#      working_dir = "../ansible"  
+#  }
+#}
