@@ -1,3 +1,3 @@
 output "dns_name" {
-	value = aws_instance.jenkins.public_dns
+	value = aws_instance.webserver-linux.public_dns
 }
