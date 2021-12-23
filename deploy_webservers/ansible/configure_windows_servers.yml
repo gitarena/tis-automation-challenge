@@ -1,53 +1,32 @@
 ---
-- hosts: all
-  become: yes
-  remote_user: ubuntu
-  become_user: root
+- name: Installing Apache MSI
+  hosts: win
+
   tasks:
+    - name: Download the Apache installer
+      win_get_url:
+        url: https://archive.apache.org/dist/httpd/binaries/win32/httpd-2.2.25-win32-x86-no_ssl.msi
+        dest: C:\ansible_examples\httpd-2.2.25-win32-x86-no_ssl.msi
 
-  - name: Install java
-    apt: 
-      name: openjdk-11-jdk
-      state: present
-      update_cache: yes
+    - name: Install apache MSI
+      win_package:
+        path: C:\ansible_examples\httpd-2.2.25-win32-x86-no_ssl.msi
+        state: present
+    
+#    - name: Create document root for your domain
+#      file:
+#        path: "/var/www/{{ http_host }}"
+#        state: directory
+#        owner: "{{ app_user }}"
+#        mode: '0755'
 
-  - name: Installing jenkins key
-    apt_key:
-      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
-      state: present
+#    - name: Copy your index page
+#      template:
+#        src: "files/index.html.j2"
+#        dest: "/var/www/{{ http_host }}/index.html"
 
-  - name: Configuring jenkins repository
-    apt_repository:
-      repo: deb https://pkg.jenkins.io/debian-stable binary/
-      state: present
-
-  - name: Installing jenkins
-    apt: 
-      name: jenkins
-      update_cache: yes
-
-  - name: Remove initial password lockfile
-    file: 
-      path: /var/lib/jenkins/secrets/initialAdminPassword 
-      state: absent
-
-  - name: Retrieve jenkins admin user directory
-    find:
-      paths: /var/lib/jenkins/users
-      patterns: 'admin_*'
-      file_type: directory
-    register: admin_file_name
-
-  - name: Reset admin password to install
-    lineinfile: path='{{ admin_file_name.files.0.path }}/config.xml' regexp='<passwordHash>' line='      <passwordHash>#jbcrypt:$2a$10$hWbMDOe5PieN1aXZQt6moOdUKiNhjYCi6WHpqDHZ7vIl9NY6MBGBu</passwordHash>'
-    register: password
-
-  - name: Restart jenkins service
-    service: 
-      name: jenkins
-      state: restarted
-
-  - name: ensure jenkins is running
-    service: 
-      name: jenkins
-      state: started
+#    - name: Set up virtuahHost
+#      template:
+#        src: "files/apache.conf.j2"
+#        dest: "/etc/apache2/sites-available/{{ http_conf }}"
+#      notify: restart-apache
