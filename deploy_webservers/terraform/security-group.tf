@@ -45,6 +45,6 @@ resource "aws_security_group" "sg_webservers" {
   }
 
   tags = {
-    Name        = "sg_jenkins"
+    Name        = "sg_webservers"
   }
 }

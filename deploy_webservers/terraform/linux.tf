@@ -2,7 +2,7 @@ resource "aws_instance" "webserver-linux" {
   count = 2
   ami = "ami-0e472ba40eb589f49"
   instance_type = "t2.micro"
-  security_groups = ["sg_jenkins"]
+  security_groups = ["sg_webservers"]
   tags = {
     Name = "Web-server-Apache-Linux-${count.index}"
   }
