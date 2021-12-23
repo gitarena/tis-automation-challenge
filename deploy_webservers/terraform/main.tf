@@ -21,9 +21,9 @@ terraform{
     }
 }
 
-#resource "null_resource" "provision_webservers" {
-#  provisioner "local-exec" {
-#      command     = "sleep 30 && ansible-playbook install_jenkins.yml"
-#      working_dir = "../ansible"  
-#  }
-#}
+resource "null_resource" "provision_webserver_linux" {
+  provisioner "local-exec" {
+      command     = "sleep 30 && ansible-playbook -i ${aws_instance.webserver-linux.*.public_dns}, configure_linux_servers.yml"
+      working_dir = "../ansible"  
+  }
+}
