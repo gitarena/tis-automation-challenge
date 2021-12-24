@@ -36,6 +36,7 @@ EOF
 
 
 resource "null_resource" "provision_webserver_linux" {
+  depends_on      = [aws_instance.webserver_linux]
   provisioner "local-exec" {
       command     = "sleep 30 && ansible-playbook -i hosts configure_linux_servers.yml"
       working_dir = "../ansible"  
