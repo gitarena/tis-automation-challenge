@@ -44,15 +44,15 @@ EOF
 resource "null_resource" "provision_webserver_linux" {
   depends_on      = [aws_instance.webserver-linux]
   provisioner "local-exec" {
-      command     = "sleep 30 && ansible-playbook -i hosts configure_linux_servers.yml"
+      command     = "sleep 60 && ansible-playbook -i hosts configure_linux_servers.yml"
       working_dir = "../ansible"  
   }
 }
 
-resource "null_resource" "provision_webserver_windows" {
-  depends_on      = [aws_instance.webserver-win]
-  provisioner "local-exec" {
-      command     = "sleep 30 && ansible-playbook -i hosts configure_windows_servers.yml"
-      working_dir = "../ansible"  
-  }
-}
+#resource "null_resource" "provision_webserver_windows" {
+#  depends_on      = [aws_instance.webserver-win]
+#  provisioner "local-exec" {
+#      command     = "sleep 30 && ansible-playbook -i hosts configure_windows_servers.yml"
+#      working_dir = "../ansible"  
+#  }
+#}
