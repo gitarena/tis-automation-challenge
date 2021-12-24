@@ -21,6 +21,7 @@ terraform{
     }
 }
 
+#Create host file for ansible
 resource "local_file" "inventory" {
  filename = "../ansible/hosts"
  content = <<EOF
@@ -40,7 +41,7 @@ ansible_connection: winrm
 EOF
 }
 
-
+#Start linux provision
 resource "null_resource" "provision_webserver_linux" {
   depends_on      = [aws_instance.webserver-linux]
   provisioner "local-exec" {

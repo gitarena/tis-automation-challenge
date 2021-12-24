@@ -1,3 +1,4 @@
+# Create Security Group to instances
 resource "aws_security_group" "sg_webservers" {
   name        = "sg_webservers"
   description = "Allow all outbound traffic and inbound 22/80"
