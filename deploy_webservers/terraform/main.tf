@@ -21,9 +21,23 @@ terraform{
     }
 }
 
+resource "local_file" "inventory" {
+ filename = "./hosts"
+ content = <<EOF
+[linux]
+${aws_instance.webserver-linux[0].public_ip}
+${aws_instance.webserver-linux[1].public_ip}
+
+[windows]
+${aws_instance.webserver-win[0].public_ip}
+${aws_instance.webserver-win[1].public_ip}
+EOF
+}
+
+
 resource "null_resource" "provision_webserver_linux" {
   provisioner "local-exec" {
-      command     = "sleep 30 && ansible-playbook -i ${aws_instance.webserver-linux.*.public_dns}, configure_linux_servers.yml"
+      command     = "sleep 30 && ansible-playbook -i hosts configure_linux_servers.yml"
       working_dir = "../ansible"  
   }
 }
