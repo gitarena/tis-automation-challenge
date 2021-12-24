@@ -31,6 +31,12 @@ ${aws_instance.webserver-linux[1].public_ip}
 [windows]
 ${aws_instance.webserver-win[0].public_ip}
 ${aws_instance.webserver-win[1].public_ip}
+
+[windows:vars]
+ansible_user: administrator
+ansible_password: L!B?TyuIfksm%$fqKBQCM$TFWql8vud8
+ansible_port: 5986
+ansible_connection: winrm
 EOF
 }
 
