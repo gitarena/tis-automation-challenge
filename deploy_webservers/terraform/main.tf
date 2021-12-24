@@ -22,7 +22,7 @@ terraform{
 }
 
 resource "local_file" "inventory" {
- filename = "./hosts"
+ filename = "../ansible/hosts"
  content = <<EOF
 [linux]
 ${aws_instance.webserver-linux[0].public_ip}
