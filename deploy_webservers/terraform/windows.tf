@@ -22,10 +22,3 @@ resource "aws_vpc" "webserver_windows" {
     Name = "webserver_windows"
   }
 }
-
-resource "null_resource" "provision_webserver_windows" {
-  provisioner "local-exec" {
-      command     = "sleep 30 && ansible-playbook configure_windows_servers.yml"
-      working_dir = "../ansible"  
-  }
-}
